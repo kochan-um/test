@@ -87,16 +87,19 @@ namespace Multiplayer
 
         private void TryBindCamera()
         {
-            // Ensure we have the target on the player
-            Transform cinemachineTarget = FindChildRecursive(transform, "CinemachineCameraTarget");
-            if (cinemachineTarget == null) return;
+            // Prefer PlayerCameraRoot if it exists under the player; fallback to CinemachineCameraTarget.
+            Transform cameraRoot = FindChildRecursive(transform, "PlayerCameraRoot");
+            if (cameraRoot == null)
+                cameraRoot = FindChildRecursive(transform, "CinemachineCameraTarget");
+            if (cameraRoot == null)
+                cameraRoot = transform; // ultimate fallback
 
             // Find Cinemachine Virtual Camera in scene (separate from Main Camera)
             var vcamType = System.Type.GetType("Cinemachine.CinemachineVirtualCamera, Cinemachine");
             if (vcamType == null) return; // Cinemachine not installed
 
             object vcam = null;
-            // Prefer an object explicitly named PlayerFollowCamera (Starter Assets 3PC 既定)
+            // Prefer an object explicitly named PlayerFollowCamera (Starter Assets 3PC default)
             var go = GameObject.Find("PlayerFollowCamera");
             if (go != null)
             {
@@ -118,8 +121,8 @@ namespace Multiplayer
             // Set Follow and LookAt via reflection
             var followProp = vcamType.GetProperty("Follow");
             var lookAtProp = vcamType.GetProperty("LookAt");
-            followProp?.SetValue(vcam, cinemachineTarget);
-            lookAtProp?.SetValue(vcam, cinemachineTarget);
+            followProp?.SetValue(vcam, cameraRoot);
+            lookAtProp?.SetValue(vcam, cameraRoot);
         }
 
         private static Transform FindChildRecursive(Transform root, string name)
