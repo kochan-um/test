@@ -22,7 +22,9 @@ public static class WebGLBuild
 
         // 推奨設定（必要に応じて調整）
         PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Gzip;
+        PlayerSettings.WebGL.decompressionFallback = true; // サーバーで Content-Encoding 未設定でも動く
         PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.ExplicitlyThrownExceptionsOnly;
+        PlayerSettings.WebGL.dataCaching = true;
         PlayerSettings.WebGL.threadsSupport = false; // COOP/COEP 設定が不要な安全側
 
         var opts = new BuildPlayerOptions
@@ -45,4 +47,3 @@ public static class WebGLBuild
         }
     }
 }
-
