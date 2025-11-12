@@ -87,22 +87,35 @@ namespace Multiplayer
 
         private void TryBindCamera()
         {
-            var cam = Camera.main;
-            if (cam == null) return;
-
-            // Try Cinemachine binding via reflection if package is present
+            // Ensure we have the target on the player
             Transform cinemachineTarget = FindChildRecursive(transform, "CinemachineCameraTarget");
             if (cinemachineTarget == null) return;
 
+            // Find Cinemachine Virtual Camera in scene (separate from Main Camera)
             var vcamType = System.Type.GetType("Cinemachine.CinemachineVirtualCamera, Cinemachine");
-            if (vcamType == null)
-                return;
+            if (vcamType == null) return; // Cinemachine not installed
 
-            var vcam = cam.GetComponent(vcamType);
+            object vcam = null;
+            // Prefer an object explicitly named PlayerFollowCamera (Starter Assets 3PC 既定)
+            var go = GameObject.Find("PlayerFollowCamera");
+            if (go != null)
+            {
+                vcam = go.GetComponent(vcamType);
+            }
+            // Fallback: first vcam found in the scene
             if (vcam == null)
-                return;
+            {
+                var findMethod = typeof(Object).GetMethods()
+                    .FirstOrDefault(m => m.Name == "FindObjectOfType" && m.IsGenericMethodDefinition && m.GetParameters().Length == 0);
+                if (findMethod != null)
+                {
+                    var generic = findMethod.MakeGenericMethod(vcamType);
+                    vcam = generic.Invoke(null, null);
+                }
+            }
+            if (vcam == null) return;
 
-            // Set Follow and LookAt properties via reflection
+            // Set Follow and LookAt via reflection
             var followProp = vcamType.GetProperty("Follow");
             var lookAtProp = vcamType.GetProperty("LookAt");
             followProp?.SetValue(vcam, cinemachineTarget);
