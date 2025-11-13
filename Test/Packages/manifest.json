@@ -1,4 +1,4 @@
-﻿{
+{
     "dependencies":  {
                          "com.unity.ai.navigation":  "2.0.8",
                          "com.unity.burst":  "1.8.23",
