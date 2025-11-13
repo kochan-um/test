@@ -73,3 +73,13 @@ git push -u origin vercel -f
 - マルチスレッドを有効にする場合は COOP/COEP ヘッダが必要です（Vercel でも設定可能）。現在のエディタビルドスクリプトはスレッドを無効化しています（互換重視）。
 - 大容量の静的ファイル（.data/.wasm）は Vercel のキャッシュで高速配信されます。必要に応じて `vercel.json` でヘッダ/キャッシュ制御を追加してください。
 - Unity のビルドがうまくいかない場合は、EditorBuildSettings のシーン設定を確認し、エラー内容を Issue で共有してください。
+
+## ワンコマンド公開
+- ローカルで Unity ビルド後、以下を実行
+  - publish-vercel.cmd（既定: Test/WebGLBuild を ercel ブランチへ公開）
+  - オプション（PowerShell 直実行）: scripts/publish-vercel.ps1 -BuildDir Test/WebGLBuild -Branch vercel -Force
+- スクリプトは以下を実施
+  - worktree で ercel をチェックアウト→ビルド成果をコピー
+  - .gz があれば展開＋index.html を非圧縮参照に書換
+  - 余計な ercel.json を除去（既定ヘッダ配信）
+  - コミットして push（-Force 指定時は強制）
