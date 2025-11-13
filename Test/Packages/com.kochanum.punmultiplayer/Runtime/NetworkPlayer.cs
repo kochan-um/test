@@ -21,9 +21,6 @@ namespace Multiplayer
         private Quaternion _netRot;
         private float _lerpSpeed = 12f;
 
-        [SerializeField]
-        private bool autoAddAnimatorSync = true; // add AnimatorParamSync when Animator exists
-
         private void Awake()
         {
             _transform = transform;
@@ -47,7 +44,6 @@ namespace Multiplayer
                 if (_rb) _rb.isKinematic = false;
                 // Bind camera to this player if possible
                 TryBindCamera();
-                TryEnsureAnimatorSync();
             }
         }
 
@@ -59,19 +55,6 @@ namespace Multiplayer
             // Smoothly interpolate remote motion
             _transform.position = Vector3.Lerp(_transform.position, _netPos, Time.deltaTime * _lerpSpeed);
             _transform.rotation = Quaternion.Slerp(_transform.rotation, _netRot, Time.deltaTime * _lerpSpeed);
-        }
-
-        private void TryEnsureAnimatorSync()
-        {
-            var anim = GetComponentInChildren<Animator>();
-            if (!anim) return;
-
-            var existing = GetComponent<AnimatorParamSync>();
-            if (!existing && autoAddAnimatorSync)
-            {
-                var sync = gameObject.AddComponent<AnimatorParamSync>();
-                sync.AutoDiscover = true;
-            }
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -155,3 +138,4 @@ namespace Multiplayer
         }
     }
 }
+
