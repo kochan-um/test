@@ -1,0 +1,22 @@
+{
+  "name": "Kochan.PunMultiplayer.Tests",
+  "references": [
+    "Kochan.PunMultiplayer"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "KOCHAN_PUN_MODULE"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false,
+  "testAssemblies": true
+}
+

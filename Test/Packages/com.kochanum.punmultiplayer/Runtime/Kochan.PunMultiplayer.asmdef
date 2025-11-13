@@ -1,0 +1,19 @@
+{
+  "name": "Kochan.PunMultiplayer",
+  "references": [
+    "PhotonUnityNetworking"
+  ],
+  "optionalUnityReferences": [],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "KOCHAN_PUN_MODULE"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
+

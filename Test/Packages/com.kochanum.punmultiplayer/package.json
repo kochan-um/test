@@ -1,0 +1,12 @@
+{
+  "name": "com.kochanum.punmultiplayer",
+  "displayName": "Kochan PUN Multiplayer",
+  "version": "0.1.0",
+  "unity": "2021.3",
+  "description": "Reusable Photon PUN multiplayer helpers: prefab pool (no Resources), player spawner, network player (ownership and transform sync).",
+  "keywords": ["photon", "pun", "multiplayer", "network", "unity"],
+  "author": {
+    "name": "kochan-um"
+  }
+}
+
